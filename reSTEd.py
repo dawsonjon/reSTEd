@@ -224,7 +224,7 @@ class DocEdit(wx.Frame):
         info.Version = "0.0.1"
         info.Copyright = "Copyright (C) 2012 Jonathan P Dawson"
         info.Description = "An editor for reStructuredText"
-        info.WebSite = ("http://github.comdawsonjon/reSTEd", "Fork reSTEd on github")
+        info.WebSite = ("http://github.com/dawsonjon/reSTEd", "Fork reSTEd on github")
         info.Developers = [ "Jon Dawson"]
         info.License = wordwrap(license_text, 500, wx.ClientDC(self))
         wx.AboutBox(info)
