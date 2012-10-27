@@ -341,7 +341,8 @@ class DocEdit(wx.Frame):
         selection = self.editor.GetString(f, t)
         if not selection:
             selection = "title"
-        self.editor.Replace(f, t, "\n\n========\n%s\n========\n"%selection)
+        line = "".join(["=" for i in selection])    
+        self.editor.Replace(f, t, "\n\n%s\n%s\n%s\n"%(line, selection, line))
 
     def on_insert_subtitle(self, event):
 
@@ -349,7 +350,8 @@ class DocEdit(wx.Frame):
         selection = self.editor.GetString(f, t)
         if not selection:
             selection = "subtitle"
-        self.editor.Replace(f, t, "\n\n----------\n%s\n----------\n"%selection)
+        line = "".join(["-" for i in selection])    
+        self.editor.Replace(f, t, "\n\n%s\n%s\n%s\n"%(line, selection, line))
 
     def on_insert_chapter(self, event):
 
@@ -357,7 +359,8 @@ class DocEdit(wx.Frame):
         selection = self.editor.GetString(f, t)
         if not selection:
             selection = "chapter"
-        self.editor.Replace(f, t, "\n\n%s\n========\n"%selection)
+        line = "".join(["=" for i in selection])    
+        self.editor.Replace(f, t, "\n\n%s\n%s\n"%(selection, line))
 
     def on_insert_section(self, event):
 
@@ -365,7 +368,8 @@ class DocEdit(wx.Frame):
         selection = self.editor.GetString(f, t)
         if not selection:
             selection = "section"
-        self.editor.Replace(f, t, "\n\n%s\n--------\n"%selection)
+        line = "".join(["-" for i in selection])    
+        self.editor.Replace(f, t, "\n\n%s\n%s\n"%(selection, line))
 
     def on_insert_subsection(self, event):
 
@@ -373,7 +377,8 @@ class DocEdit(wx.Frame):
         selection = self.editor.GetString(f, t)
         if not selection:
             selection = "subsection"
-        self.editor.Replace(f, t, "\n\n%s\n^^^^^^^^^^^\n"%selection)
+        line = "".join(["^" for i in selection])    
+        self.editor.Replace(f, t, "\n\n%s\n%s\n"%(selection, line))
 
     def on_insert_italics(self, event):
 
