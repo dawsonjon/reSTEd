@@ -456,13 +456,23 @@ class DocEdit(wx.Frame):
 
     def on_show_find(self, event):
         data = wx.FindReplaceData()
-        self.find_dlg = wx.FindReplaceDialog(self, data, "Find")
+        self.find_dlg = wx.FindReplaceDialog(
+                self, 
+                data, 
+                "Find", 
+                wx.FR_NOMATCHCASE|wx.FR_NOWHOLEWORD
+        )
         self.find_dlg.data = data
         self.find_dlg.Show(True)
 
     def on_show_replace(self, event):
         data = wx.FindReplaceData()
-        self.find_dlg = wx.FindReplaceDialog(self, data, "Find & Replace", wx.FR_REPLACEDIALOG)
+        self.find_dlg = wx.FindReplaceDialog(
+                self, 
+                data, 
+                "Find & Replace", 
+                wx.FR_REPLACEDIALOG|wx.FR_NOMATCHCASE|wx.FR_NOWHOLEWORD
+        )
         self.find_dlg.data = data
         self.find_dlg.Show(True)
 
@@ -561,7 +571,10 @@ class DocEdit(wx.Frame):
         return "\n".join(["    " + i for i in text.splitlines()])
 
 if __name__ == "__main__":
+    #remove these to give you a chance of debug
     app = wx.App(redirect=True, filename=os.path.devnull)
+    wx.Log.EnableLogging(False)
+    #app = wx.App()
     frame = DocEdit(None, title="reSTEd", size=(1024,768))
     frame.Show()
     if len(sys.argv) > 1:

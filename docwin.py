@@ -31,7 +31,10 @@ class DocWin(html.HtmlWindow):
         self.lock.acquire()
         if self.html:
             scroll_pos = self.GetScrollPos(wx.VERTICAL)
-            self.SetPage(self.html)
+            try:
+                self.SetPage(self.html)
+            except Exception as e:
+                print e
             self.Scroll(0, scroll_pos)
             self.html = False
         self.lock.release()
