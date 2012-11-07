@@ -561,7 +561,7 @@ class DocEdit(wx.Frame):
         return "\n".join(["    " + i for i in text.splitlines()])
 
 if __name__ == "__main__":
-    app = wx.App()
+    app = wx.App(redirect=True, filename=os.path.devnull)
     frame = DocEdit(None, title="reSTEd", size=(1024,768))
     frame.Show()
     if len(sys.argv) > 1:
