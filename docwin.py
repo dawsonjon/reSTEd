@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import webbrowser
-import thread
+import threading
 
 import wx
 import wx.html as html
@@ -17,15 +17,30 @@ class DocWin(html.HtmlWindow):
         if "gtk2" in wx.PlatformInfo:
             self.SetStandardFonts()
 
+        self.lock = threading.Lock()
+        self.html = False
+        self.timer = wx.Timer(self)
+        self.timer.Start(250)
+        self.Bind(wx.EVT_TIMER, self.on_timer)
+
     def set_RsT(self, reST):
         self.reST = reST
-        #thread.start_new_thread(self.update, ())
-        self.update()
+        threading.Thread(target=self.update).start()
+
+    def on_timer(self, evt):
+        self.lock.acquire()
+        if self.html:
+            scroll_pos = self.GetScrollPos(wx.VERTICAL)
+            self.SetPage(self.html)
+            self.Scroll(0, scroll_pos)
+            self.html = False
+        self.lock.release()
 
     def update(self):
+        self.lock.acquire()
         self.document = docutils.core.publish_doctree(self.reST)
-        html = docutils.core.publish_from_doctree(self.document, writer_name="html")
-        self.SetPage(html)
+        self.html = docutils.core.publish_from_doctree(self.document, writer_name="html")
+        self.lock.release()
 
     def export_html(self, filename):
         html = docutils.core.publish_from_doctree(self.document, writer_name="html")
