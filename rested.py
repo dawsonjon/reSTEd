@@ -31,13 +31,13 @@ class DocEdit(wx.Frame):
 
         file_menu = wx.Menu()
 
-        self.file_open    = file_menu.Append(wx.ID_OPEN, "Open")
-        self.file_save    = file_menu.Append(wx.ID_SAVE, "Save")
+        self.file_open    = file_menu.Append(wx.ID_OPEN, "Open\tCtrl+O")
+        self.file_save    = file_menu.Append(wx.ID_SAVE, "Save\tCtrl+S")
         self.file_save_as = file_menu.Append(wx.ID_SAVEAS, "Save As")
-        self.file_export_html  = file_menu.Append(-1, "Export HTML")
-        self.file_export_latex  = file_menu.Append(-1, "Export Latex")
-        self.file_export_odt  = file_menu.Append(-1, "Export odt")
-        self.file_exit    = file_menu.Append(wx.ID_EXIT, "Exit")
+        self.file_export_html  = file_menu.Append(wx.NewId(), "Export HTML")
+        self.file_export_latex  = file_menu.Append(wx.NewId(), "Export Latex")
+        self.file_export_odt  = file_menu.Append(wx.NewId(), "Export odt")
+        self.file_exit    = file_menu.Append(wx.ID_EXIT, "Exit\tCtrl+Q")
 
         self.Bind(wx.EVT_MENU, self.on_open,    self.file_open)
         self.Bind(wx.EVT_MENU, self.on_save,    self.file_save)
@@ -49,10 +49,10 @@ class DocEdit(wx.Frame):
 
 
         edit_menu = wx.Menu()
-        self.edit_undo = edit_menu.Append(wx.ID_UNDO, "Undo")
-        self.edit_redo = edit_menu.Append(wx.ID_REDO, "Redo")
-        self.edit_find = edit_menu.Append(-1, "Find")
-        self.edit_replace = edit_menu.Append(-1, "Replace")
+        self.edit_undo = edit_menu.Append(wx.ID_UNDO, "Undo\tCtrl+Z")
+        self.edit_redo = edit_menu.Append(wx.ID_REDO, "Redo\tCtrl+Y")
+        self.edit_find = edit_menu.Append(wx.NewId(), "Find\tCtrl+F")
+        self.edit_replace = edit_menu.Append(wx.NewId(), "Replace\tCtrl+H")
 
         self.Bind(wx.EVT_MENU, self.on_undo, self.edit_undo)
         self.Bind(wx.EVT_MENU, self.on_redo, self.edit_redo)
@@ -64,20 +64,20 @@ class DocEdit(wx.Frame):
 
         insert_menu = wx.Menu()
 
-        self.insert_title = insert_menu.Append(-1, "Title")
-        self.insert_subtitle = insert_menu.Append(-1, "Subtitle")
-        self.insert_chapter = insert_menu.Append(-1, "Chapter")
-        self.insert_section = insert_menu.Append(-1, "Section")
-        self.insert_subsection = insert_menu.Append(-1, "Subsection")
-        self.insert_bullets = insert_menu.Append(-1, "Bullets")
-        self.insert_numbering = insert_menu.Append(-1, "Numbering")
-        self.insert_italics = insert_menu.Append(-1, "Italics")
-        self.insert_bold = insert_menu.Append(-1, "Bold")
-        self.insert_csv_2_table = insert_menu.Append(-1, "CSV 2 Table")
-        self.insert_table_2_csv = insert_menu.Append(-1, "Table 2 CSV")
-        self.insert_image = insert_menu.Append(-1, "Image")
-        self.insert_link = insert_menu.Append(-1, "Hyperlink")
-        self.insert_sample = insert_menu.Append(-1, "Code Sample")
+        self.insert_title = insert_menu.Append(wx.NewId(), "Title")
+        self.insert_subtitle = insert_menu.Append(wx.NewId(), "Subtitle")
+        self.insert_chapter = insert_menu.Append(wx.NewId(), "Chapter")
+        self.insert_section = insert_menu.Append(wx.NewId(), "Section")
+        self.insert_subsection = insert_menu.Append(wx.NewId(), "Subsection")
+        self.insert_bullets = insert_menu.Append(wx.NewId(), "Bullets")
+        self.insert_numbering = insert_menu.Append(wx.NewId(), "Numbering")
+        self.insert_italics = insert_menu.Append(wx.NewId(), "Italics")
+        self.insert_bold = insert_menu.Append(wx.NewId(), "Bold")
+        self.insert_csv_2_table = insert_menu.Append(wx.NewId(), "CSV 2 Table")
+        self.insert_table_2_csv = insert_menu.Append(wx.NewId(), "Table 2 CSV")
+        self.insert_image = insert_menu.Append(wx.NewId(), "Image")
+        self.insert_link = insert_menu.Append(wx.NewId(), "Hyperlink")
+        self.insert_sample = insert_menu.Append(wx.NewId(), "Code Sample")
 
         self.Bind(wx.EVT_MENU, self.on_insert_title, self.insert_title)
         self.Bind(wx.EVT_MENU, self.on_insert_subtitle, self.insert_subtitle)
@@ -95,20 +95,31 @@ class DocEdit(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_insert_sample, self.insert_sample)
 
         help_menu = wx.Menu()
-        self.help_quick = help_menu.Append(-1, "reST Quick Start Guide")
-        self.help_spec =  help_menu.Append(-1, "reST Specification")
-        self.help_about = help_menu.Append(-1, "About")
+        self.help_quick = help_menu.Append(wx.NewId(), "reST Quick Start Guide\tF1")
+        self.help_spec =  help_menu.Append(wx.NewId(), "reST Specification")
+        self.help_about = help_menu.Append(wx.NewId(), "About")
 
         self.Bind(wx.EVT_MENU, self.on_help_quick, self.help_quick)
         self.Bind(wx.EVT_MENU, self.on_help_spec, self.help_spec)
         self.Bind(wx.EVT_MENU, self.on_help_about, self.help_about)
-
 
         menubar.Append(file_menu, "File")
         menubar.Append(edit_menu, "Edit")
         menubar.Append(insert_menu, "Insert")
         menubar.Append(help_menu, "Help")
         self.SetMenuBar(menubar)
+
+        tbl = wx.AcceleratorTable([
+            (wx.ACCEL_CTRL, ord('Z'), wx.ID_UNDO),
+            (wx.ACCEL_CTRL, ord('Y'), wx.ID_REDO),
+            (wx.ACCEL_CTRL, ord('S'), wx.ID_SAVE),
+            (wx.ACCEL_CTRL, ord('O'), wx.ID_OPEN),
+            (wx.ACCEL_CTRL, ord('F'), self.edit_find.GetId()),
+            (wx.ACCEL_CTRL, ord('H'), self.edit_replace.GetId()),
+            (wx.ACCEL_CTRL, ord('Q'), wx.ID_EXIT),
+            (wx.ACCEL_NORMAL, wx.WXK_F1, self.help_quick.GetId()),
+        ])
+        self.SetAcceleratorTable(tbl)
 
         editor = wx.TextCtrl(panel,  -1, style=wx.TE_MULTILINE|wx.TE_RICH)
         font1 = wx.Font(12, wx.TELETYPE, wx.NORMAL, wx.NORMAL, False)
@@ -312,6 +323,8 @@ class DocEdit(wx.Frame):
 
         text = self.editor.GetValue()
         self.undos.append(text)
+        if len(self.undos) >= 1000:
+            self.undos.pop(0)
         self.viewer.set_RsT(text)
 
     def on_insert_image(self, event):
